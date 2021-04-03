@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#424242</color>
+    <color name="colorPrimaryDark">#1b1b1b</color>
+    <color name="colorSecondary">#6d6d6d</color>
+    <color name="teal_200">#e3e3e3</color>
+    <color name="teal_700">#757575</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="ma_blue_primary">#323c9f</color>
+    <color name="ma_blue_transparent">#4D323c9f</color>
+    <color name="ma_orange">#dd2c00</color>
+    <color name="ma_line_gray_light">#eeeeee</color>
+    <color name="ma_line_gray">#e3e3e3</color>
+    <color name="ma_text_color">#424242</color>
+    <color name="ma_text_gray_light">#757575</color>
+    <color name="ma_green">#28a69a</color>
+    <color name="ma_text_green">#03796b</color>
+    <color name="ma_green_light">#f0fff6</color>
+    <color name="ma_pink">#e81c63</color>
+    <color name="ma_pink_light">#ffe1e1</color>
+    <color name="ma_text_color_white">#fefefe</color>
+    <color name="ma_sweat_green">#e1fff8</color>
+
+</resources>

@@ -1,0 +1,169 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+android {
+    signingConfigs {
+        release {
+            keyAlias 'evermos'
+            keyPassword 'evermos'
+            storeFile file('../keystore/evermos.jks')
+            storePassword 'evermos'
+        }
+        debug {
+            keyAlias 'evermos'
+            keyPassword 'evermos'
+            storeFile file('../keystore/debug.jks')
+            storePassword 'evermos'
+        }
+    }
+
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.awesome.apps"
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        signingConfig signingConfigs.debug
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+            minifyEnabled true
+
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+            minifyEnabled false
+
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+    flavorDimensions "default"
+    productFlavors {
+        prod {
+            signingConfig signingConfigs.release
+            buildConfigField "String", "BASE_URL", "\"https://api.pexels.com/v1/\""
+            buildConfigField "String", "API_KEY", "\"563492ad6f917000010000014fa91a08d68d424db963bba8c19d3cc5\""
+
+            minSdkVersion 19
+            applicationId 'com.awesome.apps'
+            targetSdkVersion 30
+            versionCode 1
+            versionName '1.0.0'
+            dimension "default"
+            resValue "string", "app_name", "Awesome Apps"
+        }
+        stag {
+            signingConfig signingConfigs.debug
+            buildConfigField "String", "BASE_URL", "\"https://api.pexels.com/v1/\""
+            buildConfigField "String", "API_KEY", "\"563492ad6f917000010000014fa91a08d68d424db963bba8c19d3cc5\""
+
+            minSdkVersion 19
+            targetSdkVersion 30
+            versionCode 1
+            versionName '1.0.0'
+            dimension "default"
+            resValue "string", "app_name", "Stag-Awesome"
+            applicationIdSuffix ".stag"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    dataBinding {
+        enabled = true
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def flavor = variant.productFlavors[0].name
+            def version = variant.versionName
+            def buildType = variant.buildType.name
+            def date = new Date()
+            def formattedDate = date.format('ddMMyy')
+            outputFileName = "${flavor}-${buildType}-${formattedDate}.apk"
+        }
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // ViewModel and LiveData
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-common:2.3.1'
+    implementation 'androidx.room:room-runtime:2.2.6'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+
+    // UI
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.sothree.slidinguppanel:library:3.1.1'
+
+    // Networking
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt "com.github.bumptech.glide:compiler:4.11.0"
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation('org.apache.commons:commons-io:1.3.2') {
+        exclude module: 'commons-io'
+    }
+    implementation 'org.apache.commons:commons-lang3:3.10'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.13'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation("com.squareup.okhttp3:okhttp:4.9.0") {
+        force = true
+    }
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Koin
+    implementation 'org.koin:koin-android:2.0.1'
+    implementation "org.koin:koin-androidx-scope:2.0.1"
+    implementation "org.koin:koin-androidx-viewmodel:2.0.1"
+
+    //Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+
+}
