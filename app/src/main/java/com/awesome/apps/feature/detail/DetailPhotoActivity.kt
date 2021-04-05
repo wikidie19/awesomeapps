@@ -2,14 +2,18 @@ package com.awesome.apps.feature.detail
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.awesome.apps.R
 import com.awesome.apps.base.DataBindingActivity
 import com.awesome.apps.databinding.ActivityDetailPhotoBinding
 import com.awesome.apps.model.PhotosGallery
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import org.koin.android.ext.android.inject
 
@@ -64,6 +68,20 @@ class DetailPhotoActivity : DataBindingActivity<ActivityDetailPhotoBinding>() {
                 isShow = false
             }
         })
+
+        vb.wvDetailPhoto.setOnTouchListener { v, event -> true }
+
+        vb.wvDetailPhoto.webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                vb.pbLoading.visibility = View.VISIBLE
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                vb.pbLoading.visibility = View.GONE
+            }
+        }
 
     }
 
